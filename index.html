@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simula aquí</title>
+    <link rel="Icon" href="img/home.png">
+    <link rel="stylesheet" type="text/css" href="estilos.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script type="text/javascript" src="funciones.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<!--
+    Crear un proyecto web HTML usando entradas de formularios:
+    Se requiere crear una interfaz web de simulador de crédito hipotecario, utilizando entradas de formularios, CSS o BootStrap y validaciones en JavaScript que permita lo siguiente:
+    • Preguntar si la propiedad a comprar es nueva o usada.
+    • Preguntar si el valor de la casa que desea comprar en pesos o uf.
+    • Preguntar el monto del crédito solicitado para pagar la casa, cabe señalar que solo podrá solicitar como máximo el 80% del valor total de la propiedad.
+    • Consultar el plazo en años para pagar el crédito.
+Se solicita:
+
+    1. Crear un formulario web que satisfaga las entradas de los requerimientos.
+    2. Crear una hoja CSS o Bootstrap para dar un diseño a la página.
+    3. Crear un archivo JS que contenga la o las funciones que validen todos los campos obligatorios del formulario y realice la validación del máximo del crédito solicitado.-->
+<body>
+    <div class="container">
+        <h2>Realiza tu cotización</h2>
+        <p>Llena todos los campos de este formulario y un ejecutivo te contactara a la brevedad</p>
+        <form class="form-group-sm" name="frm" action="index.html" method="GET">
+            <!--Ingreso de nombre y apellidos-->
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" class="form-control" id="name" placeholder="Nombre y Apellido" value="" aria-label="First name" required autofocus="">
+            </div>&nbsp;
+            <!--Ingreso de RUT-->
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" class="form-control" id="rut" name="rut" value="" placeholder="Escribe tu R.U.T" required maxlength="9">
+            </div>&nbsp;
+            <!--Ingreso de Teléfono-->
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                <input type="tel" class="form-control" name="tel" value="" id="tel" placeholder="Fono de contacto" required>
+            </div>&nbsp;
+            <!--Email-->
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                <input id="email" type="email" class="form-control" name="email" value="" placeholder="Correo electrónico" required>
+            </div>&nbsp;
+            <!--Opción de cotización-->
+            <div class="input-group">
+                <p>¿Estado del inmueble?
+                    <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="estInm" value="Nueva"> Nueva
+                    </label>
+                    <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="estInm" value="Usada"> Usada
+                    </label>
+                </p>
+            </div>
+            <!--Opción de cotización-->
+            <div class="input-group">
+                <p>Cotiza en:
+                    <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="opValor" value="Peso"> Pesos
+                    </label>
+                    <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="opValor" value="UF"> U.F
+                    </label>
+                </p>
+            </div>
+            <!-- Montos de credito-->
+            <div class="input-group-sm">
+                <label for="cot" class="cot">Valores del Crédito</label>
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label for="valTot" class="form-label">Valor Total:</label>
+                        <input type="text" id="valTot" value="" class="form-inline" placeholder="Valor total" aria-label="valor total" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="monPie" class="form-label">Pie abonado: </label>
+                        <input type="text" id="monPie" value="" class="form-inline" placeholder="Monto Pie" aria-label="monto pie" required>
+                    </div>
+                    <div class="col-md-1">
+                        <label for="monPie" class="form-label">Haz click! </label>
+                        <button type="button" class="btn btn-primary btn-info btn-sm" onclick="calcular()">Calcular</button>
+                    </div>    
+                    <div class="col-md-2">
+                        <label for="monCred" class="form-label">Total Crédito: </label>
+                        <input type="text" id="monCredito" value="" class="form-inline" placeholder="Monto Credito" aria-label="monto credito">
+                    </div>
+                </div>
+            </div>&nbsp;
+            <!--En caso de cotizar en UF-->
+            <div class="input-group-sm" id="UFaPeso" style="display:none; border: 2px solid black; border-radius: 7px;background: skyblue; padding: 10px 5px;">
+                <label for="cot" class="cot">Valores del Crédito en Pesos</label>
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label for="valTot" class="form-label">Valor Total:</label>
+                        <input type="text" id="valTotUFaPeso" value="" class="form-inline" aria-label="valor total">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="monPie" class="form-label">Pie abonado: </label>
+                        <input type="text" id="monPieUFaPeso" value="" class="form-inline" aria-label="monto pie">
+                    </div>   
+                    <div class="col-md-2">
+                        <label for="monCred" class="form-label">Total Crédito: </label>
+                        <input type="text" id="monCreditoUFaPeso" value="" class="form-inline" aria-label="monto credito">
+                    </div>
+                </div>
+            </div>
+            &nbsp;
+            <!--Años de pago-->
+            <div class="input-group">
+                <span class="input-group-addon">Cantidad de años</span>
+                <select class="form-control" id="anos" name ="canAnos" required="">
+                  <option value="0">Selecciona el plazo</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                </select>
+            </div>&nbsp;
+            <!--Boton-->
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-lg"  onclick="validacion()">Enviar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
